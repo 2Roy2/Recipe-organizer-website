@@ -1,0 +1,25 @@
+{
+  "name": "recipe-organizer-website",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2Roy2/Recipe-organizer-website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/2Roy2/Recipe-organizer-website/issues"
+  },
+  "homepage": "https://github.com/2Roy2/Recipe-organizer-website#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7",
+    "nodemon": "^2.0.15"
+  }
+}
