@@ -1,7 +1,7 @@
-const mongoDbPassword= require('./mongoDbPassword.js');
-const mongoose = require('mongoose');
-const express= require('express');
-const userRouter= require('./routers/user');
+const mongoDbPassword= require('./mongoDbPassword.js')
+const mongoose = require('mongoose')
+const express= require('express')
+const userRouter= require('./routers/user')
 
 
 const dbURI=`mongodb+srv://roy2:${mongoDbPassword.password}@recipeorganizerwebsite.cszgb.mongodb.net/mainDB?retryWrites=true&w=majority`
@@ -15,8 +15,8 @@ mongoose.connect(dbURI).then(()=>{
     app.use('/api/user',userRouter);
 
     app.listen(5000,()=>{
-        console.log('server is running...');
-    });
+        console.log('server is running...')
+    })
 }
-);
+)
  
