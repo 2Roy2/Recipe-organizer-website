@@ -6,7 +6,8 @@ const userSchema = new Schema({
     name: String,
     password: String,
     recipes: [{
-        name: String,
+    _id:mongoose.Schema.Types.ObjectId,
+    name: String,
     img:
         { data: Buffer, contentType: String },
     description: {

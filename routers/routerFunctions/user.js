@@ -12,6 +12,7 @@ const getAllUsers = async (req, res) => {
                 res.status(404).json({ err })
             })
     } catch (error) {
+        console.log(error)
         res.status(500).json({ err: true })
     }
 }
@@ -41,7 +42,7 @@ const addUser = async (req, res) => {
         const existingUser = await User.findOne({ name: name })
             .then((result) => {
                 if (result)
-                    return { err: "user already exists" }
+                    return { err: "user name already exists" }
             })
             .catch((err) => {
                 res.status(404).json({ err })
@@ -62,6 +63,7 @@ const addUser = async (req, res) => {
                 res.status(404).json({ err })
             });
     } catch (error) {
+        console.log(error)
         res.status(500).json({ err: true })
     }
 
@@ -105,6 +107,7 @@ const deleteUSer = async (req, res) => {
         return res.status(200).json({ deleteUSer: deleteddUser })
 
     } catch (error) {
+        console.log(error)
         res.status(500).json({ err: true })
     }
 }
