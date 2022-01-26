@@ -110,7 +110,7 @@ const deleteRecipe = async (req, res) => {
         res.status(500).json({ err: true })
     }
 }
-const updateRecipe=async(req,res)=>{
+const updateRecipe = async (req, res) => {
     try {
         const { id, recipeID } = req.params
         const { name, img, description } = req.body
@@ -127,19 +127,19 @@ const updateRecipe=async(req,res)=>{
         if (!recipe)
             return res.status(404).json({ err: 'recipe not found' })
 
-        if(name)
-            recipe.name=name
-        if(img)
-            recipe.img=img
-        if(description)
-            recipe.description=description
+        if (name)
+            recipe.name = name
+        if (img)
+            recipe.img = img
+        if (description)
+            recipe.description = description
 
         console.log(recipes)
         await User.findByIdAndUpdate(id, { recipes: recipes })
 
         return res.status(200).json(recipe)
 
-        
+
     } catch (error) {
         console.log(error)
         res.status(500).json({ err: true })

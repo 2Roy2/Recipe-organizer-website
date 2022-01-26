@@ -1,4 +1,5 @@
 const { findByIdAndUpdate, findOneAndDelete } = require("../../models/user")
+const bcryptUtil = require('../../bcryptUtil')
 const User = require("../../models/user")
 const router = require("../user")
 
@@ -16,15 +17,15 @@ const getAllUsers = async (req, res) => {
         res.status(500).json({ err: true })
     }
 }
-const getSpecificUser=async (req, res) => {
+const getSpecificUser = async (req, res) => {
     try {
         const { id } = req.params
 
-        const user = await User.findOne({_id:id})
-    
-        if(!user)
-            return res.status(404).json({err:'user not found'})
-        
+        const user = await User.findOne({ _id: id })
+
+        if (!user)
+            return res.status(404).json({ err: 'user not found' })
+
         return res.status(200).json(user)
     } catch (error) {
         console.log(error)
@@ -37,7 +38,6 @@ const addUser = async (req, res) => {
         const { name, password } = req.body
         if (!name || !password)
             return res.status(404).json({ err: "no name or password" });
-
         //check if user with same name already exists
         const existingUser = await User.findOne({ name: name })
             .then((result) => {
@@ -49,19 +49,24 @@ const addUser = async (req, res) => {
             })
         if (existingUser)
             return res.json(existingUser)
+        
+        const hashPassword = await bcryptUtil.generateHashedPassword(password)
+
+        if(!hashPassword)
+            return res.status(404).json({err:'no hash password'})
 
         //create user
         const user = User({
             name: name,
-            password: password,
+            password: hashPassword,
             recipe: []
         });
         user.save().then((result) => {
             res.status(200).json(result);
         })
-            .catch((err) => {
-                res.status(404).json({ err })
-            });
+        .catch((err) => {
+            res.status(404).json({ err })
+        });
     } catch (error) {
         console.log(error)
         res.status(500).json({ err: true })
@@ -73,20 +78,20 @@ const updateUser = async (req, res) => {
         const { newName, newPassword } = req.body
         const { id } = req.params
 
-        if(!newName&&!newPassword)
-            return res.status(404).json({err:'not provided new name'})
+        if (!newName && !newPassword)
+            return res.status(404).json({ err: 'not provided new name' })
 
-        const updateParmams={}
-        if(newName)
-            updateParmams.name=newName
-        if(newPassword)
-            updateParmams.password=newPassword
-        
-        const updatedUsr=await User.findOneAndUpdate({ _id: id },updateParmams,{
-            new:true
+        const updateParmams = {}
+        if (newName)
+            updateParmams.name = newName
+        if (newPassword)
+            updateParmams.password =await bcryptUtil.generateHashedPassword(newPassword)
+
+        const updatedUsr = await User.findOneAndUpdate({ _id: id }, updateParmams, {
+            new: true
         })
 
-        if(!updatedUsr)
+        if (!updatedUsr)
             return res.status(404).json('user not found')
 
         return res.status(200).json(updatedUsr)
@@ -99,7 +104,7 @@ const updateUser = async (req, res) => {
 const deleteUSer = async (req, res) => {
     try {
         const { id } = req.params
-        
+
         const deleteddUser = await User.findOneAndDelete({ _id: id })
         if (!deleteddUser)
             return res.status(404).json({ err: 'user not found' })

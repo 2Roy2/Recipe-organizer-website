@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/2Roy2/Recipe-organizer-website#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.2",
     "mongoose": "^6.1.7",
     "nodemon": "^2.0.15"
   }
 }
- 
