@@ -19,7 +19,7 @@ const logger = async(req,res)=>{
     
         const usrID=user._id.toString()
 
-        const accessToken=await jwt.sign(usrID,process.env.ACCESS_TOKEN)
+        const accessToken= jwt.sign(usrID,process.env.ACCESS_TOKEN)
         
         res.status(200).json({accessToken:accessToken})
     } catch (error) {

@@ -137,7 +137,6 @@ const updateRecipe = async (req, res) => {
         if (description)
             recipe.description = description
 
-        console.log(recipes)
         await User.findByIdAndUpdate(id, { recipes: recipes })
 
         return res.status(200).json(recipe)
