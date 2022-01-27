@@ -8,7 +8,7 @@ const { ObjectId } = require('mongodb')
 
 const getAllRecipes = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req
         const user = await User.findById(id)
 
         if (!user)
@@ -24,7 +24,7 @@ const getAllRecipes = async (req, res) => {
 }
 const postNewRecipe = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req
         const { name, img, description } = req.body
 
         const newrecipe = {
@@ -58,7 +58,8 @@ const postNewRecipe = async (req, res) => {
 }
 const getOneRecipe = async (req, res) => {
     try {
-        const { id, recipeID } = req.params
+        const { id } = req
+        const { recipeID } = req.params
 
         const user = await User.findById(id)
 
@@ -81,7 +82,8 @@ const getOneRecipe = async (req, res) => {
 }
 const deleteRecipe = async (req, res) => {
     try {
-        const { id, recipeID } = req.params
+        const { id } = req
+        const { recipeID } = req.params
 
         const user = await User.findById(id)
 
@@ -112,7 +114,8 @@ const deleteRecipe = async (req, res) => {
 }
 const updateRecipe = async (req, res) => {
     try {
-        const { id, recipeID } = req.params
+        const { id } = req
+        const { recipeID } = req.params
         const { name, img, description } = req.body
 
         const user = await User.findById(id)

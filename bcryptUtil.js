@@ -13,7 +13,7 @@ const generateHashedPassword = async(password)=>{
 //compare password to hased version of password (with salt)
 const comparePassword= async(password, hasedPassword)=>{
     try {
-        return await bcrypt.comparePassword(password,hasedPassword)
+        return await bcrypt.compare(password,hasedPassword)
     } catch (error) {
         console.log(error)
 
@@ -21,5 +21,6 @@ const comparePassword= async(password, hasedPassword)=>{
 }
 
 module.exports = {
-    generateHashedPassword
+    generateHashedPassword,
+    comparePassword
 }

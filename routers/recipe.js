@@ -5,18 +5,18 @@ const {getAllRecipes, postNewRecipe, getOneRecipe, deleteRecipe,updateRecipe} = 
 const router = express.Router()
 
 //get all recipes from user
-router.get('/:id',getAllRecipes)
+router.get('/',getAllRecipes)
 
 //get one recipe by his id
-router.get('/:id/:recipeID',getOneRecipe)
+router.get('/:recipeID',getOneRecipe)
 
 //post new recipe. set name img and description
-router.post('/:id',postNewRecipe)
+router.post('/',postNewRecipe)
 
 //delete spacific recipe by his id
-router.delete('/:id/:recipeID',deleteRecipe)
+router.delete('/:recipeID',deleteRecipe)
 
 //change recipe properties if provided. properties: name, img, description
-router.patch('/:id/:recipeID',updateRecipe)
+router.patch('/:recipeID',updateRecipe)
 
 module.exports = router

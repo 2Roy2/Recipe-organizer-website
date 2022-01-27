@@ -3,24 +3,11 @@ const bcryptUtil = require('../../bcryptUtil')
 const User = require("../../models/user")
 const router = require("../user")
 
-const getAllUsers = async (req, res) => {
-    try {
-        User.find().
-            then((result) => {
-                res.status(200).json(result)
-            })
-            .catch((err) => {
-                res.status(404).json({ err })
-            })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ err: true })
-    }
-}
+
 const getSpecificUser = async (req, res) => {
     try {
-        const { id } = req.params
-
+        const { id } = req
+    
         const user = await User.findOne({ _id: id })
 
         if (!user)
@@ -33,50 +20,10 @@ const getSpecificUser = async (req, res) => {
     }
 }
 
-const addUser = async (req, res) => {
-    try {
-        const { name, password } = req.body
-        if (!name || !password)
-            return res.status(404).json({ err: "no name or password" });
-        //check if user with same name already exists
-        const existingUser = await User.findOne({ name: name })
-            .then((result) => {
-                if (result)
-                    return { err: "user name already exists" }
-            })
-            .catch((err) => {
-                res.status(404).json({ err })
-            })
-        if (existingUser)
-            return res.json(existingUser)
-        
-        const hashPassword = await bcryptUtil.generateHashedPassword(password)
-
-        if(!hashPassword)
-            return res.status(404).json({err:'no hash password'})
-
-        //create user
-        const user = User({
-            name: name,
-            password: hashPassword,
-            recipe: []
-        });
-        user.save().then((result) => {
-            res.status(200).json(result);
-        })
-        .catch((err) => {
-            res.status(404).json({ err })
-        });
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({ err: true })
-    }
-
-}
 const updateUser = async (req, res) => {
     try {
         const { newName, newPassword } = req.body
-        const { id } = req.params
+        const { id } = req
 
         if (!newName && !newPassword)
             return res.status(404).json({ err: 'not provided new name' })
@@ -103,7 +50,7 @@ const updateUser = async (req, res) => {
 }
 const deleteUSer = async (req, res) => {
     try {
-        const { id } = req.params
+        const { id } = req
 
         const deleteddUser = await User.findOneAndDelete({ _id: id })
         if (!deleteddUser)
@@ -117,9 +64,24 @@ const deleteUSer = async (req, res) => {
     }
 }
 
+/*
+const getAllUsers = async (req, res) => {
+    try {
+        User.find().
+            then((result) => {
+                res.status(200).json(result)
+            })
+            .catch((err) => {
+                res.status(404).json({ err })
+            })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ err: true })
+    }
+}
+*/
+
 module.exports = {
-    getAllUsers,
-    addUser,
     deleteUSer,
     updateUser,
     getSpecificUser
