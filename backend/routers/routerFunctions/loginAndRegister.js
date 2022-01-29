@@ -1,6 +1,7 @@
 const User = require("../../models/user")
 const bcryptUtil =require('../../bcryptUtil')
 const jwt = require('jsonwebtoken')
+const {findCurrectUser, findIfNameExists} = require('./utilFunctions')
 
 const logger = async(req,res)=>{
     try {
@@ -10,13 +11,12 @@ const logger = async(req,res)=>{
             return res.status(404).json({ err: "no name or password" });
         
         const users=await User.find({name:name})
-        if(!users)
-            return res.status(404).json({ err: "user not found" })
 
-        const user = await users.find(usr=> bcryptUtil.comparePassword(password,usr.password))
+        const user = await findCurrectUser(users,password)
+
         if(!user)
             return res.status(404).json({ err: "user not found" })
-    
+
         const usrID=user._id.toString()
 
         const accessToken= jwt.sign(usrID,process.env.ACCESS_TOKEN)
@@ -33,17 +33,9 @@ const register = async (req, res)=>{
         const { name, password } = req.body
         if (!name || !password)
             return res.status(404).json({ err: "no name or password" });
-        //check if user with same name already exists
-        const existingUser = await User.findOne({ name: name })
-            .then((result) => {
-                if (result)
-                    return { err: "user name already exists" }
-            })
-            .catch((err) => {
-                res.status(404).json({ err })
-            })
-        if (existingUser)
-            return res.status(404).json(existingUser)
+
+        if(await findIfNameExists(name))
+            return res.status(404).json({err:'user name already exists'})
         
         const hashPassword = await bcryptUtil.generateHashedPassword(password)
 
@@ -67,6 +59,9 @@ const register = async (req, res)=>{
         res.status(500).json({ err: true })
     }
 }
+
+
+
 module.exports={
     logger,
     register

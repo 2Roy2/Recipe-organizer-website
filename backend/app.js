@@ -1,5 +1,5 @@
 require('dotenv').config()
-const mongoDbPassword= require('./mongoDbPassword.js')
+const {dbURI}= require('./mongoDbPassword.js')
 const mongoose = require('mongoose')
 const express= require('express')
 const {authenticate} = require('./middlewares/authentication')
@@ -8,7 +8,6 @@ const recipeRouter=require('./routers/recipe')
 const loginRouter=require('./routers/login')
 const registerRouter = require('./routers/register')
 
-const dbURI=mongoDbPassword.dbURI
 
 mongoose.connect(dbURI).then(()=>{
     console.log("connected to db!")
