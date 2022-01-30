@@ -9,14 +9,14 @@
       <input type="password" class="form-control" v-model="password" />
     </div>
     <div class="d-grid gap-2 col-6 mx-auto">
-        <button @click="onClick" type="button " class="btn btn-success">login</button>
+        <button @click="onClick" type="button " class="btn btn-success">register</button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Login",
+  name: "Register",
   data(){
       return{
           username:'',
@@ -25,13 +25,10 @@ export default {
   },
   methods:{
       onClick(){
-        const username=this.username
-        const password = this.password
-          const data = {username,password}
-          this.$emit('loginAttempt', data)
+          console.log(this.password)
+          console.log(this.username)
       }
-  },
-  
+  }
 };
 </script>
 
