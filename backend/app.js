@@ -3,6 +3,7 @@ const {dbURI}= require('./mongoDbPassword.js')
 const mongoose = require('mongoose')
 const express= require('express')
 const {authenticate} = require('./middlewares/authentication')
+const {addHeaderForCORS}= require('./middlewares/corsPolicySolution')
 const userRouter= require('./routers/user')
 const recipeRouter=require('./routers/recipe')
 const loginRouter=require('./routers/login')
@@ -15,6 +16,8 @@ mongoose.connect(dbURI).then(()=>{
     const app = express();
     app.use(express.urlencoded({extended:false}))
     app.use(express.json())
+
+    app.use(addHeaderForCORS)
 
     app.use('/api/login',loginRouter)
     app.use('/api/register',registerRouter)
