@@ -53,7 +53,7 @@ export default {
         },
       };
       this.$emit("addRecipeAttempt", data);
-      console.log(data)
+      Object.assign(this.$data, this.$options.data.apply(this));
     },
   },
 };
