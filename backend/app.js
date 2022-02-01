@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const express= require('express')
 const {authenticate} = require('./middlewares/authentication')
 const {addHeaderForCORS}= require('./middlewares/corsPolicySolution')
+const cors= require('cors')
 const userRouter= require('./routers/user')
 const recipeRouter=require('./routers/recipe')
 const loginRouter=require('./routers/login')
@@ -17,8 +18,7 @@ mongoose.connect(dbURI).then(()=>{
     app.use(express.urlencoded({extended:false}))
     app.use(express.json())
 
-    app.use(addHeaderForCORS)
-
+    app.use(cors())
     app.use('/api/login',loginRouter)
     app.use('/api/register',registerRouter)
 

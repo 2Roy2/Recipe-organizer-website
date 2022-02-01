@@ -8,10 +8,8 @@ const userSchema = new Schema({
     recipes: [{
     _id:mongoose.Schema.Types.ObjectId,
     name: String,
-    img:
-        { data: Buffer, contentType: String },
     description: {
-        ingredients: [String],
+        ingredients: String,
         instructions: String
     }
     }]

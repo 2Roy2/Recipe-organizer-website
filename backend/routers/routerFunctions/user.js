@@ -2,6 +2,7 @@ const { findByIdAndUpdate, findOneAndDelete } = require("../../models/user")
 const bcryptUtil = require('../../bcryptUtil')
 const User = require("../../models/user")
 const router = require("../user")
+const {findIfNameExists} = require('./utilFunctions')
 
 
 const getSpecificUser = async (req, res) => {
@@ -27,10 +28,13 @@ const updateUser = async (req, res) => {
 
         if (!newName && !newPassword)
             return res.status(404).json({ err: 'not provided new name' })
-
+        
         const updateParmams = {}
-        if (newName)
+        if (newName){
+            if(await findIfNameExists(newName))
+            return res.status(404).json({err:'user name already exists'})
             updateParmams.name = newName
+        }
         if (newPassword)
             updateParmams.password =await bcryptUtil.generateHashedPassword(newPassword)
 

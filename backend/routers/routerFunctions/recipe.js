@@ -25,16 +25,20 @@ const getAllRecipes = async (req, res) => {
 const postNewRecipe = async (req, res) => {
     try {
         const { id } = req
-        const { name, img, description } = req.body
+        const { name, description } = req.body
 
+        if(!description)
+            return res.status(400).json({err:'np description provided'})
+
+        const {ingredients , instructions}=description
         const newrecipe = {
             _id: ObjectId(),
             name: name,
-            img: img,
-            description: description
+            description:{
+                ingredients:ingredients,
+                instructions: instructions
+            }
         }
-
-
 
         const user = await User.findById(id)
 
@@ -116,7 +120,15 @@ const updateRecipe = async (req, res) => {
     try {
         const { id } = req
         const { recipeID } = req.params
-        const { name, img, description } = req.body
+        const { name ,description } = req.body
+        let ingredients= undefined
+        let instructions= undefined
+
+        if(description){
+            ingredients=description.ingredients
+            instructions=description.instructions
+        }
+           
 
         const user = await User.findById(id)
 
@@ -132,10 +144,12 @@ const updateRecipe = async (req, res) => {
 
         if (name)
             recipe.name = name
-        if (img)
-            recipe.img = img
-        if (description)
-            recipe.description = description
+
+        if (ingredients)
+            recipe.description.ingredients = ingredients
+
+        if (instructions)
+            recipe.description.instructions = instructions
 
         await User.findByIdAndUpdate(id, { recipes: recipes })
 

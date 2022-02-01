@@ -21,7 +21,7 @@ const logger = async(req,res)=>{
 
         const accessToken= jwt.sign(usrID,process.env.ACCESS_TOKEN)
         
-        res.status(200).json({accessToken:accessToken})
+        return res.status(200).json({accessToken:accessToken})
     } catch (error) {
         console.log(error)
         res.status(500).json({ err: true })
