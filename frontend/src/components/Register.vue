@@ -1,5 +1,5 @@
 <template>
-  <div class="container border mt-4 w-25 " style="background-color: #daebe4">
+  <div class="container border mt-4 w-25  " style="background-color: #daebe4">
     <div class="mb-3 mt-3">
       <label for="username" class="form-label">Username</label>
       <input type="text" class="form-control" v-model="username" />

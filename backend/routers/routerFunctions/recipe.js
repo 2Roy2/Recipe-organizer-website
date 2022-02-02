@@ -52,7 +52,7 @@ const postNewRecipe = async (req, res) => {
 
         await User.findByIdAndUpdate(id, { recipes: user.recipes })
 
-        return res.status(200).json(user.recipes)
+        return res.status(200).json({newrecipe} )
 
     } catch (error) {
         console.log(error)

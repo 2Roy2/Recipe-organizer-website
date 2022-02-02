@@ -16,7 +16,11 @@
         @addRecipeAttempt="addRecipeProtocol"
         v-if="authToken !== null"
       />
-      <ViewRecipes v-if="authToken !== null" />
+      <ViewRecipes
+        @deleteRecipeAttempt="deleteRecipeProtocol"
+        v-if="authToken !== null"
+        :recipes="recipes"
+      />
     </div>
   </div>
 </template>
@@ -101,21 +105,36 @@ export default {
     },
     async addRecipeProtocol(data) {
       await axios
-      .post(
-        "http://localhost:5000/api/user/recipe",
-        {
-          name: data.name,
-          description: {
-            ingredients: data.description.ingredients,
-            instructions: data.description.instructions,
+        .post(
+          "http://localhost:5000/api/user/recipe",
+          {
+            name: data.name,
+            description: {
+              ingredients: data.description.ingredients,
+              instructions: data.description.instructions,
+            },
           },
-        },
-        {
+          {
+            headers: {
+              Authorization: "Bearer " + this.authToken,
+            },
+          }
+        )
+        .then((response) => {
+          this.recipes.push(response.data.newrecipe);
+        });
+    },
+    async deleteRecipeProtocol(data) {
+      const url = `http://localhost:5000/api/user/recipe/${data.recipe._id}`;
+      await axios
+        .delete(url, {
           headers: {
             Authorization: "Bearer " + this.authToken,
           },
-        }
-      );
+        })
+        .then((response) => {
+          this.recipes=this.recipes.filter((rec) => rec._id != response.data._id);
+        });
     },
   },
 };
