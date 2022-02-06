@@ -126,6 +126,9 @@ export default {
         });
     },
     async deleteRecipeProtocol(data) {
+      if(!confirm("Are you sure you want to delete?"))
+        return
+
       const url = `http://localhost:5000/api/user/recipe/${data.recipe._id}`;
       await axios
         .delete(url, {
