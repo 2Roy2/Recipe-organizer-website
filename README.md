@@ -5,6 +5,6 @@ to start the website you need to install all packages fron the package json, hav
 
 you need to change the "ACCESS_TOKEN" in .env if you want a secret token for security
 
-###Pictures
+### Pictures
 
 ![Screenshot 2022-02-06 130651](https://user-images.githubusercontent.com/77095122/152678334-15f0f418-15e1-4998-b903-12fbba8e2cac.png)
