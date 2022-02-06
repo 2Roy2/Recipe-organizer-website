@@ -6,7 +6,7 @@
     <div>
       <ul>
         <li v-for="recipe in recipes" :key="recipe._id">
-          <Recipe @deleteRecipeAttempt="deleteRecipeAttempt" :recipe="recipe" />
+          <Recipe @updateAttempt="updateAttempt" @deleteRecipeAttempt="deleteRecipeAttempt" :recipe="recipe" />
         </li>
       </ul>
     </div>
@@ -27,7 +27,10 @@ export default {
   methods:{
       deleteRecipeAttempt(data){
           this.$emit('deleteRecipeAttempt',data)
-      }
+      },
+      updateAttempt(data){
+        this.$emit('updateAttempt',data)
+      },
   }
 };
 </script>

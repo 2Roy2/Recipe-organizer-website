@@ -18,6 +18,7 @@
       />
       <ViewRecipes
         @deleteRecipeAttempt="deleteRecipeProtocol"
+        @updateAttempt="updateRecipeProtocol"
         v-if="authToken !== null"
         :recipes="recipes"
       />
@@ -133,8 +134,39 @@ export default {
           },
         })
         .then((response) => {
-          this.recipes=this.recipes.filter((rec) => rec._id != response.data._id);
+          this.recipes = this.recipes.filter(
+            (rec) => rec._id != response.data._id
+          );
         });
+    },
+    async updateRecipeProtocol(data) {
+      const url = `http://localhost:5000/api/user/recipe/${data._id}`;
+      await axios.patch(
+        url,
+
+        {
+          name: data.name,
+          description: {
+            ingredients: data.ingredients,
+            instructions: data.instructions,
+          },
+        },
+
+        {
+          headers: {
+            Authorization: "Bearer " + this.authToken,
+          },
+        }
+      );
+
+      await axios.get("http://localhost:5000/api/user/recipe", {
+        headers: {
+          Authorization: "Bearer " + this.authToken,
+        },
+      })
+      .then((response)=>{
+        this.recipes=response.data
+      });
     },
   },
 };
