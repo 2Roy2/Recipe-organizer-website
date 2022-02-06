@@ -45,7 +45,7 @@ export default {
       loginStatus: "",
       registerStatus: "",
       authToken: null,
-      username: "Recipe organiser",
+      username: "Recipe organizer",
       recipes: null,
     };
   },
